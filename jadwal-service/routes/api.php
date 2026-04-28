@@ -9,6 +9,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/mata_kuliah', mata_kuliahController::class);
+Route::apiResource('/mata-kuliah', mata_kuliahController::class);
 Route::apiResource('/jadwal', jadwalController::class);
-

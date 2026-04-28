@@ -31,10 +31,10 @@ class JadwalController extends Controller
         if ($validator->fails()) {
             return new jadwalResource(null, 'Gagal', $validator->errors());
         }
-
-        if ($response->successful()) {
+        $dosen = $response->json();
+        if ($dosen['data'] != null) {
             $jadwal = Jadwal::create($request->all());
-            return new jadwalResource($jadwal, 'Sukses', 'Data jadwal berhasil dibuat');
+            return new jadwalResource([$jadwal, $dosen['data']], 'Sukses', 'Data jadwal berhasil dibuat');
         } else {
             return new jadwalResource(null, 'Gagal', 'Data dosen tidak ditemukan');
         }
