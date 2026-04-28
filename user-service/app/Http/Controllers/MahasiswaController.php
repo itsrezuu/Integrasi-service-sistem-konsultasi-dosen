@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Mahasiswa;
 use App\Http\Resources\MahasiswaResource;
+use App\Models\mahasiswa;
 use Illuminate\Support\Facades\Validator;
 
 class MahasiswaController extends Controller
 {
     public function index()
     {
-        $Mahasiswa = Mahasiswa::all();
+        $Mahasiswa = mahasiswa::all();
         return new MahasiswaResource($Mahasiswa, 'Success', 'List Mahasiswa');
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nim' => 'required|unique:mahasiswas,nim',
+            'nim' => 'required',
             'nama' => 'required',
             'kelas' => 'required',
             'prodi' => 'required',
@@ -30,13 +30,13 @@ class MahasiswaController extends Controller
             return new MahasiswaResource(null, 'Failed', $validator->errors());
         }
 
-        $Mahasiswa = Mahasiswa::create($request->all());
+        $Mahasiswa = mahasiswa::create($request->all());
         return new MahasiswaResource($Mahasiswa, 'Success', 'Data berhasil ditambahkan');
     }
 
     public function show($id)
     {
-        $Mahasiswa = Mahasiswa::find($id);
+        $Mahasiswa = mahasiswa::find($id);
 
         if ($Mahasiswa) {
             return new MahasiswaResource($Mahasiswa, 'Success', 'Data ditemukan');
@@ -47,7 +47,7 @@ class MahasiswaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $Mahasiswa = Mahasiswa::find($id);
+        $Mahasiswa = mahasiswa::find($id);
 
         if ($Mahasiswa) {
             $Mahasiswa->update($request->all());
@@ -59,7 +59,7 @@ class MahasiswaController extends Controller
 
     public function destroy($id)
     {
-        $Mahasiswa = Mahasiswa::find($id);
+        $Mahasiswa = mahasiswa::find($id);
 
         if ($Mahasiswa) {
             $Mahasiswa->delete();
