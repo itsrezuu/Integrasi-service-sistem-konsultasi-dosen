@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('mata_kuliah');
             $table->integer('sks');
-            $table->string('kode_mk');
+            $table->string('kode_mk')->unique();
             $table->timestamps();
         });
     }

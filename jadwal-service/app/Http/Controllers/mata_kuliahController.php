@@ -30,9 +30,9 @@ class mata_kuliahController extends Controller
         return new mata_kuliahResource($mata_kuliah, 'Sukses', 'Data Mata kuliah berhasil dibuat');
     }
 
-    public function show($id)
+    public function show($kode_mk)
     {
-        $mata_kuliah = mata_kuliah::find($id);
+        $mata_kuliah = mata_kuliah::where('kode_mk', '=', $kode_mk)->first();
         if ($mata_kuliah) {
             return new mata_kuliahResource($mata_kuliah, 'Sukses', 'Data mata kuliah ditemukan');
         } else {
