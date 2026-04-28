@@ -17,7 +17,8 @@ return new class extends Migration
             $table->date('tanggal');
             $table->time('waktu_mulai');
             $table->time('waktu_selesai');
-            $table->foreignId('kode_mk')->constrained('mata_kuliahs');
+            $table->string('kode_mk');
+            $table->foreign('kode_mk')->references('kode_mk')->on('mata_kuliahs')->onDelete('cascade');
             $table->timestamps();
         });
     }
