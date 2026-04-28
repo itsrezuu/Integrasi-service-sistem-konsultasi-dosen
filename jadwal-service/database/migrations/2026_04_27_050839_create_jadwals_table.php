@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_dosen');
             $table->date('tanggal');
             $table->time('waktu_mulai');
             $table->time('waktu_selesai');
-            $table->string('kode_mk');
+            $table->foreignId('kode_mk')->constrained('mata_kuliahs');
             $table->timestamps();
         });
     }
