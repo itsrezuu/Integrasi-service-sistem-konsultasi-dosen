@@ -27,7 +27,7 @@ class mata_kuliahResource extends JsonResource
     {
         return [
             'status' => $this->status,
-            'pesan' => $this->message,
+            'message' => $this->message,
             'data' => $this->resource,
         ];
     }
