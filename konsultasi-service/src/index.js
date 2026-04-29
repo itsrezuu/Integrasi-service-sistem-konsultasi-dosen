@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const konsultasiRoutes = require('./src/routes/konsultasiRoutes');
+const konsultasiRoutes = require('./routes/konsultasiRoutes');
 
 const app = express();
 
