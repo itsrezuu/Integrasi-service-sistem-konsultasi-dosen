@@ -40,9 +40,9 @@ class JadwalController extends Controller
         }
     }
 
-    public function show(int $id)
+    public function show(string $tanggal)
     {
-        $jadwal = Jadwal::find($id);
+        $jadwal = Jadwal::where('tanggal', '=', $tanggal)->first();
 
         if ($jadwal) {
             return new jadwalResource($jadwal, 'Sukses', 'Data jadwal ditemukan');
