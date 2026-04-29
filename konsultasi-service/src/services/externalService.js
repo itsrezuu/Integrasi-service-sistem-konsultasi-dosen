@@ -1,3 +1,4 @@
+const axios = require('axios');
 const getUserById = async (role, id) => {
     try {
         const response = await axios.get(`${process.env.USER_SERVICE_URL}/api/${role}/${id}`);
@@ -7,7 +8,7 @@ const getUserById = async (role, id) => {
     }
 };
 
-const getJadwalById = async (jadwalId) => {
+const getJadwalByTanggal = async (jadwalId) => {
     try {
         const response = await axios.get(`${process.env.JADWAL_SERVICE_URL}/api/jadwal/${jadwalId}`);
         return response.data;
@@ -16,4 +17,4 @@ const getJadwalById = async (jadwalId) => {
     }
 };
 
-module.exports = { getUserById, getJadwalById };
+module.exports = { getUserById, getJadwalByTanggal };
