@@ -7,9 +7,14 @@ const {
 const getAllKonsultasi = async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM konsultasi");
-    res.json({ success: true, data: rows });
+    if (rows.length === 0)
+      return res
+        .status(404)
+        .json({ status: "Failed", message: "Tidak ada konsultasi ditemukan" });
+
+    res.json({ status: "Success", message: "GET all konsultasi", data: rows });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ status: "Failed", message: error.message });
   }
 };
 
@@ -21,10 +26,15 @@ const getKonsultasiById = async (req, res) => {
     if (rows.length === 0)
       return res
         .status(404)
-        .json({ success: false, message: "Konsultasi tidak ditemukan" });
-    res.json({ success: true, data: rows[0] });
+        .json({ status: "Failed", message: "Konsultasi tidak ditemukan" });
+
+    res.json({
+      status: "Success",
+      message: "GET konsultasi by id",
+      data: rows[0],
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ status: "Failed", message: error.message });
   }
 };
 
@@ -36,21 +46,21 @@ const createKonsultasi = async (req, res) => {
     if (mahasiswa.data == null) {
       res
         .status(404)
-        .json({ success: false, message: "Mahasiswa tidak ditemukan" });
+        .json({ status: "Failed", message: "Mahasiswa tidak ditemukan" });
       return;
     }
     const dosen = await getUserById("dosen", nip);
     if (dosen.data == null) {
       res
         .status(404)
-        .json({ success: false, message: "Dosen tidak ditemukan" });
+        .json({ status: "Failed", message: "Dosen tidak ditemukan" });
       return;
     }
 
     const jadwal = await getJadwalByTanggal(tanggal);
     if (jadwal.data != null) {
       res.status(400).json({
-        success: false,
+        status: "Failed",
         message:
           "Dosen Sudah memiliki jadwal pada tanggal tersebut sudah penuh",
       });
@@ -64,7 +74,7 @@ const createKonsultasi = async (req, res) => {
 
     if (existing.length > 0) {
       res.status(400).json({
-        success: false,
+        status: "Failed",
         message:
           "Dosen sudah memiliki jadwal konsultasi di tanggal dan waktu tersebut",
       });
@@ -77,7 +87,7 @@ const createKonsultasi = async (req, res) => {
     );
 
     res.status(201).json({
-      success: true,
+      status: "Success",
       message: "Konsultasi berhasil dibuat",
       data: {
         id: result.insertId,
@@ -90,7 +100,7 @@ const createKonsultasi = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ status: "Failed", message: error.message });
   }
 };
 
@@ -105,10 +115,10 @@ const updateKonsultasi = async (req, res) => {
     if (result.affectedRows === 0)
       return res
         .status(404)
-        .json({ success: false, message: "Konsultasi tidak ditemukan" });
-    res.json({ success: true, message: "Konsultasi berhasil diupdate" });
+        .json({ status: "Failed", message: "Konsultasi tidak ditemukan" });
+    res.json({ status: "Success", message: "Konsultasi berhasil diupdate" });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ status: "Failed", message: error.message });
   }
 };
 
@@ -120,10 +130,10 @@ const deleteKonsultasi = async (req, res) => {
     if (result.affectedRows === 0)
       return res
         .status(404)
-        .json({ success: false, message: "Konsultasi tidak ditemukan" });
-    res.json({ success: true, message: "Konsultasi berhasil dihapus" });
+        .json({ status: "Failed", message: "Konsultasi tidak ditemukan" });
+    res.json({ status: "Success", message: "Konsultasi berhasil dihapus" });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ status: "Failed", message: error.message });
   }
 };
 
