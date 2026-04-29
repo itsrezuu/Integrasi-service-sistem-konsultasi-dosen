@@ -61,7 +61,7 @@ Database & App setup
 Start the server
 
 ```bash
-  php artisan serve --port=8000 
+  php artisan serve 
 ```
 
 <!-- ## Authors
