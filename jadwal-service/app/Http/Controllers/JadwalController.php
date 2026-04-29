@@ -13,30 +13,33 @@ class JadwalController extends Controller
     public function index()
     {
         $jadwal = Jadwal::all();
-        return new jadwalResource($jadwal, 'Berhasil', 'Data Jadwal');
+        if ($jadwal->isEmpty()) {
+            return (new jadwalResource(null, 'Failed', 'Data Jadwal tidak ditemukan'))->response()->setStatusCode(404);
+        }
+        return new jadwalResource($jadwal, 'Success', 'Data Jadwal');
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_dosen' => 'required',
+            'nip_dosen' => 'required',
             'tanggal' => 'required|date',
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
             'kode_mk' => 'required'
         ]);
 
-        $response = Http::get('http://127.0.0.1:8000/api/dosen/' . $request->id_dosen);
+        $response = Http::get('http://127.0.0.1:8000/api/dosen/' . $request->nip_dosen);
 
         if ($validator->fails()) {
-            return new jadwalResource(null, 'Gagal', $validator->errors());
+            return (new jadwalResource(null, 'Failed', $validator->errors()))->response()->setStatusCode(400);
         }
         $dosen = $response->json();
         if ($dosen['data'] != null) {
             $jadwal = Jadwal::create($request->all());
-            return new jadwalResource([$jadwal, $dosen['data']], 'Sukses', 'Data jadwal berhasil dibuat');
+            return new jadwalResource([$jadwal, $dosen['data']], 'Success', 'Data jadwal berhasil dibuat');
         } else {
-            return new jadwalResource(null, 'Gagal', 'Data dosen tidak ditemukan');
+            return (new jadwalResource(null, 'Failed', 'Data dosen tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 
@@ -45,9 +48,9 @@ class JadwalController extends Controller
         $jadwal = Jadwal::where('tanggal', '=', $tanggal)->first();
 
         if ($jadwal) {
-            return new jadwalResource($jadwal, 'Sukses', 'Data jadwal ditemukan');
+            return new jadwalResource($jadwal, 'Success', 'Data jadwal ditemukan');
         } else {
-            return new jadwalResource(null, 'Gagal', 'Data jadwal tidak ditemukan');
+            return new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan');
         }
     }
 
@@ -57,9 +60,9 @@ class JadwalController extends Controller
 
         if ($jadwal) {
             $jadwal->update($request->all());
-            return new jadwalResource($jadwal, 'Sukses', 'Data jadwal berhasil diupdate');
+            return new jadwalResource($jadwal, 'Success', 'Data jadwal berhasil diupdate');
         } else {
-            return new jadwalResource(null, 'Gagal', 'Data jadwal tidak ditemukan');
+            return new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan');
         }
     }
 
@@ -69,9 +72,9 @@ class JadwalController extends Controller
 
         if ($jadwal) {
             $jadwal->delete();
-            return new jadwalResource($jadwal, 'Sukses', 'Data jadwal berhasil dihapus');
+            return new jadwalResource($jadwal, 'Success', 'Data jadwal berhasil dihapus');
         } else {
-            return new jadwalResource(null, 'Gagal', 'Data jadwal tidak ditemukan');
+            return new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan');
         }
     }
 }
