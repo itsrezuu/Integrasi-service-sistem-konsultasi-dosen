@@ -40,7 +40,7 @@ class JadwalController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $jadwal = Jadwal::find($id);
 
@@ -51,7 +51,7 @@ class JadwalController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $jadwal = Jadwal::find($id);
 
@@ -63,7 +63,7 @@ class JadwalController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $jadwal = Jadwal::find($id);
 

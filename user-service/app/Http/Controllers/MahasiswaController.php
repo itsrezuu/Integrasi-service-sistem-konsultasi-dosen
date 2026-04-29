@@ -34,9 +34,9 @@ class MahasiswaController extends Controller
         return new MahasiswaResource($Mahasiswa, 'Success', 'Data berhasil ditambahkan');
     }
 
-    public function show($id)
+    public function show(int $nim)
     {
-        $Mahasiswa = mahasiswa::find($id);
+        $Mahasiswa = mahasiswa::where('nim', '=', $nim)->first();
 
         if ($Mahasiswa) {
             return new MahasiswaResource($Mahasiswa, 'Success', 'Data ditemukan');
@@ -45,9 +45,9 @@ class MahasiswaController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $nim)
     {
-        $Mahasiswa = mahasiswa::find($id);
+        $Mahasiswa = mahasiswa::where('nim', '=', $nim)->first();
 
         if ($Mahasiswa) {
             $Mahasiswa->update($request->all());
@@ -57,9 +57,9 @@ class MahasiswaController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(int $nim)
     {
-        $Mahasiswa = mahasiswa::find($id);
+        $Mahasiswa = mahasiswa::where('nim', '=', $nim)->first();
 
         if ($Mahasiswa) {
             $Mahasiswa->delete();

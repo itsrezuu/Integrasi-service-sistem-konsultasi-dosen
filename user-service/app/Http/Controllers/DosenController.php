@@ -33,9 +33,9 @@ class DosenController extends Controller
         return new DosenResource($Dosen, 'Success', 'Data berhasil ditambahkan');
     }
 
-    public function show($id)
+    public function show(int $nip)
     {
-        $Dosen = Dosen::find($id);
+        $Dosen = Dosen::where('nip', '=', $nip)->first();
 
         if ($Dosen) {
             return new DosenResource($Dosen, 'Success', 'Data ditemukan');
@@ -44,9 +44,9 @@ class DosenController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $nip)
     {
-        $Dosen = Dosen::find($id);
+        $Dosen = Dosen::where('nip', '=', $nip)->first();
 
         if ($Dosen) {
             $Dosen->update($request->all());
@@ -56,9 +56,9 @@ class DosenController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(int $nip)
     {
-        $Dosen = Dosen::find($id);
+        $Dosen = Dosen::where('nip', '=', $nip)->first();
 
         if ($Dosen) {
             $Dosen->delete();

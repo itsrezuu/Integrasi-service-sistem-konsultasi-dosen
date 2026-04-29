@@ -30,7 +30,7 @@ class mata_kuliahController extends Controller
         return new mata_kuliahResource($mata_kuliah, 'Sukses', 'Data Mata kuliah berhasil dibuat');
     }
 
-    public function show($kode_mk)
+    public function show(string $kode_mk)
     {
         $mata_kuliah = mata_kuliah::where('kode_mk', '=', $kode_mk)->first();
         if ($mata_kuliah) {
@@ -40,9 +40,9 @@ class mata_kuliahController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $kode_mk)
     {
-        $mata_kuliah = mata_kuliah::find($id);
+        $mata_kuliah = mata_kuliah::where('kode_mk', '=', $kode_mk)->first();
         if ($mata_kuliah) {
             $mata_kuliah->update($request->all());
             return new mata_kuliahResource($mata_kuliah, 'Sukses', 'Data mata kuliah berhasil diupdate');
@@ -51,9 +51,9 @@ class mata_kuliahController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(string $kode_mk)
     {
-        $mata_kuliah = mata_kuliah::find($id);
+        $mata_kuliah = mata_kuliah::where('kode_mk', '=', $kode_mk)->first();
         if ($mata_kuliah) {
             $mata_kuliah->delete();
             return new mata_kuliahResource($mata_kuliah, 'Sukses', 'Data mata kuliah berhasil dihapus');
