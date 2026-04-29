@@ -12,6 +12,9 @@ class MahasiswaController extends Controller
     public function index()
     {
         $Mahasiswa = mahasiswa::all();
+        if ($Mahasiswa->isEmpty()) {
+            return (new MahasiswaResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
+        }
         return new MahasiswaResource($Mahasiswa, 'Success', 'List Mahasiswa');
     }
 
@@ -27,7 +30,7 @@ class MahasiswaController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new MahasiswaResource(null, 'Failed', $validator->errors());
+            return (new MahasiswaResource(null, 'Failed', $validator->errors()))->response()->setStatusCode(400);
         }
 
         $Mahasiswa = mahasiswa::create($request->all());
@@ -41,7 +44,7 @@ class MahasiswaController extends Controller
         if ($Mahasiswa) {
             return new MahasiswaResource($Mahasiswa, 'Success', 'Data ditemukan');
         } else {
-            return new MahasiswaResource(null, 'Failed', 'Data tidak ditemukan');
+            return (new MahasiswaResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 
@@ -53,7 +56,7 @@ class MahasiswaController extends Controller
             $Mahasiswa->update($request->all());
             return new MahasiswaResource($Mahasiswa, 'Success', 'Data berhasil diupdate');
         } else {
-            return new MahasiswaResource(null, 'Failed', 'Data tidak ditemukan');
+            return (new MahasiswaResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 
@@ -65,7 +68,7 @@ class MahasiswaController extends Controller
             $Mahasiswa->delete();
             return new MahasiswaResource($Mahasiswa, 'Success', 'Data berhasil dihapus');
         } else {
-            return new MahasiswaResource(null, 'Failed', 'Data tidak ditemukan');
+            return (new MahasiswaResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 }

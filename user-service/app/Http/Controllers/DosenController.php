@@ -12,6 +12,10 @@ class DosenController extends Controller
     public function index()
     {
         $Dosen = Dosen::all();
+        if ($Dosen->isEmpty()) {
+            return (new DosenResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
+        }
+
         return new DosenResource($Dosen, 'Success', 'List Dosen');
     }
 
@@ -26,7 +30,7 @@ class DosenController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new DosenResource(null, 'Failed', $validator->errors());
+            return (new DosenResource(null, 'Failed', $validator->errors()))->response()->setStatusCode(400);
         }
 
         $Dosen = Dosen::create($request->all());
@@ -40,7 +44,7 @@ class DosenController extends Controller
         if ($Dosen) {
             return new DosenResource($Dosen, 'Success', 'Data ditemukan');
         } else {
-            return new DosenResource(null, 'Failed', 'Data tidak ditemukan');
+            return (new DosenResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 
@@ -52,7 +56,7 @@ class DosenController extends Controller
             $Dosen->update($request->all());
             return new DosenResource($Dosen, 'Success', 'Data berhasil diupdate');
         } else {
-            return new DosenResource(null, 'Failed', 'Data tidak ditemukan');
+            return (new DosenResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 
@@ -64,7 +68,7 @@ class DosenController extends Controller
             $Dosen->delete();
             return new DosenResource($Dosen, 'Success', 'Data berhasil dihapus');
         } else {
-            return new DosenResource(null, 'Failed', 'Data tidak ditemukan');
+            return (new DosenResource(null, 'Failed', 'Data tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 }
