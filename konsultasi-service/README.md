@@ -1,4 +1,4 @@
-# Jadwal Service
+# Konsultasi Service
 
 Repository ini berisi service yang menangani data penjadwalan konsultasi
 
