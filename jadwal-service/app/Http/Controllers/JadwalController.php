@@ -50,7 +50,7 @@ class JadwalController extends Controller
         if ($jadwal) {
             return new jadwalResource($jadwal, 'Success', 'Data jadwal ditemukan');
         } else {
-            return new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan');
+            return (new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 
@@ -62,10 +62,10 @@ class JadwalController extends Controller
             $jadwal->update($request->all());
             return new jadwalResource($jadwal, 'Success', 'Data jadwal berhasil diupdate');
         } else {
-            return new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan');
+            return (new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
-
+    
     public function destroy(int $id)
     {
         $jadwal = Jadwal::find($id);
@@ -74,7 +74,7 @@ class JadwalController extends Controller
             $jadwal->delete();
             return new jadwalResource($jadwal, 'Success', 'Data jadwal berhasil dihapus');
         } else {
-            return new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan');
+            return (new jadwalResource(null, 'Failed', 'Data jadwal tidak ditemukan'))->response()->setStatusCode(404);
         }
     }
 }
