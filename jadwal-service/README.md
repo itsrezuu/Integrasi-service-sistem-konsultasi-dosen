@@ -61,7 +61,7 @@ Database & App setup
 Start the server
 
 ```bash
-  composer run dev
+  php artisan serve
 ```
 
 <!-- ## Authors
