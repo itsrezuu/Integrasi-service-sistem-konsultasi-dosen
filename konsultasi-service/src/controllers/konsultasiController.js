@@ -58,7 +58,9 @@ const createKonsultasi = async (req, res) => {
     }
 
     const jadwal = await getJadwalByTanggal(tanggal);
-    if (jadwal.data != null) {
+    console.log(jadwal);
+
+    if (jadwal != null && jadwal.data != null) {
       res.status(400).json({
         status: "Failed",
         message:
