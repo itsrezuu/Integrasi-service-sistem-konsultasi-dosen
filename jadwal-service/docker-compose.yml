@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  app:
+    build: .
+    container_name: jadwal_app
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: jadwal_db
+    restart: always
+    environment:
+      POSTGRES_DB: jadwal_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  queue:
+    build: .
+    container_name: jadwal_queue
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
+    command: php artisan queue:work
+
+volumes:
+  pgdata:

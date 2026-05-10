@@ -1,16 +1,24 @@
 FROM php:8.3-fpm
 
-RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpq-dev
-
-RUN docker-php-ext-install pdo pdo_pgsql mbstring bcmath exif pcntl
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
 WORKDIR /var/www
 
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    git curl unzip libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql
+
+# Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copy project
 COPY . .
 
-RUN composer install
+# Install Laravel dependencies
+RUN composer install --no-interaction --prefer-dist
+
+# Permission fix
+RUN chown -R www-data:www-data /var/www
+
+EXPOSE 8000
 
 CMD ["php-fpm"]
