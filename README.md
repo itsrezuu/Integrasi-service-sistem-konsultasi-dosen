@@ -19,6 +19,14 @@ Clone the project
 ```bash
   git clone https://github.com/itsrezuu/Integrasi-service-sistem-konsultasi-dosen.git
 ```
+## Run With Docker
+
+cp .env.example .env in every service
+execute start-all.sh
+
+```bash
+  ./start-all.sh
+```
 
 <!-- ## Authors
 
