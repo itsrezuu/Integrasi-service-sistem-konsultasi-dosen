@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  user_app:
+    build: .
+    container_name: user_app
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - user_db
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    networks:
+      - eai-network
+
+  user_db:
+    image: mysql:8.0
+    container_name: user_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: user_service
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - user_data:/var/lib/mysql
+    networks:
+      - eai-network
+
+volumes:
+  user_data:
+
+networks:
+  eai-network:
+    external: true
