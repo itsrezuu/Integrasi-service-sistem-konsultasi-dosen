@@ -29,7 +29,7 @@ class JadwalController extends Controller
             'kode_mk' => 'required'
         ]);
 
-        $response = Http::get('http://127.0.0.1:8000/api/dosen/' . $request->nip_dosen);
+        $response = Http::get('http://user_app:8000/api/dosen/' . $request->nip_dosen);
 
         if ($validator->fails()) {
             return (new jadwalResource(null, 'Failed', $validator->errors()))->response()->setStatusCode(400);

@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+
+  konsultasi_app:
+    build: .
+    container_name: konsultasi_app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - konsultasi_db
+    networks:
+      - eai-network
+
+  konsultasi_db:
+    image: mysql:8.0
+    container_name: konsultasi_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: konsultasi_service
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3308:3306"
+    volumes:
+      - konsultasi_data:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - eai-network
+
+  konsultasi_worker:
+    build: .
+    container_name: konsultasi_worker
+    command: node src/worker.js
+    networks:
+      - eai-network    
+
+volumes:
+  konsultasi_data:
+
+networks:
+  eai-network:
+    external: true

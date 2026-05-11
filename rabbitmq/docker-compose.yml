@@ -1,0 +1,13 @@
+services:
+  rabbitmq:
+      image: rabbitmq:3-management
+      container_name: rabbitmq
+      ports:
+        - "5672:5672"     # koneksi app
+        - "15672:15672"   # dashboard
+      networks:
+        - eai-network   
+
+networks:
+  eai-network:
+    external: true      
