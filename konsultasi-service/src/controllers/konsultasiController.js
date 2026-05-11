@@ -3,6 +3,7 @@ const {
   getUserById,
   getJadwalByTanggal,
 } = require("../services/externalService");
+const { sendToQueue } = require("../services/rabbitmq");
 
 const getAllKonsultasi = async (req, res) => {
   try {
@@ -87,6 +88,16 @@ const createKonsultasi = async (req, res) => {
       "INSERT INTO konsultasi (nim, nip, tanggal, waktu, topik, status) VALUES (?, ?, ?, ?, ?, ?)",
       [nim, nip, tanggal, waktu, topik, "pending"],
     );
+
+    await sendToQueue({
+      type: "konsultasi_created",
+      konsultasi_id: result.insertId,
+      nim,
+      nip,
+      tanggal,
+      waktu,
+      topik,
+    });
 
     res.status(201).json({
       status: "Success",
