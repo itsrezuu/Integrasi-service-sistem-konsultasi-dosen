@@ -21,8 +21,7 @@ Clone the project
 ```
 ## Run With Docker
 
-cp .env.example .env in every service
-execute start-all.sh
+cp .env.example .env in every service & execute start-all.sh
 
 ```bash
   ./start-all.sh
